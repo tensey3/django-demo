@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "blogapp.apps.BlogappConfig",
     'mondai1.apps.Mondai1Config',
+    'mondai2.apps.Mondai2Config',
 ]
 
 MIDDLEWARE = [
