@@ -1,3 +1,3 @@
 from django.contrib import admin
-
-# Register your models here.
+from .models import Mondai2Post
+admin.site.register(Mondai2Post)
