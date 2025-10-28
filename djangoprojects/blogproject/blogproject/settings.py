@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tqji3+8v*gz=pam3#wqobq4ojffy495q2)ga1eb-46nq0#h+#p'
+SECRET_KEY = 'django-insecure-rz$j^368sc=5t8e__u83_tod2j&kl81z6o%lajpz^6n6l-6j1$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,9 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "blogapp.apps.BlogappConfig",
-    'mondai1.apps.Mondai1Config',
-    'mondai2.apps.Mondai2Config',
+	# 追加
+	'blogapp.apps.BlogappConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,8 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
+#LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'ja'
 
+#TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
@@ -124,3 +125,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# constantsをインポート
+from django.contrib.messages import constants
+# レベル定数を指定するための環境変数MESSAGE_TAGS
+MESSAGE_TAGS = {
+    constants.SUCCESS: 'alert alert-success',
+}
