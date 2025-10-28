@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>宇宙ねこカフェ — ワンページの遊べるページ</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html,body {
+    height: 100%;
+    font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    background: radial-gradient(1200px 600px at 10% 20%, rgba(124,58,237,0.12), transparent),
+                radial-gradient(900px 500px at 90% 80%, rgba(6,182,212,0.08), transparent),
+                linear-gradient(180deg,#0f172a,#0b1220);
+    color: #e6eef8;
+    display:flex; align-items:center; justify-content:center;
+    padding:32px;
+  }
+
+  .card {
+    width: min(980px, 94vw);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  header {
+    display:flex; gap:16px; align-items:center; margin-bottom:18px;
+  }
+
+  .logo {
+    width:72px; height:72px;
+    border-radius:14px;
+    background: linear-gradient(135deg,#7c3aed,#06b6d4);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:24px;
+    box-shadow: 0 6px 18px rgba(7,10,25,0.6), inset 0 -6px 14px rgba(255,255,255,0.06);
+  }
+
+  h1 { font-size:20px; }
+  p.lead { color: #cfe9ff; opacity:0.9; margin-top:6px; font-size:13px; }
+
+  .controls {
+    margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;
+  }
+
+  .btn {
+    padding:10px 14px;
+    border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    cursor:pointer;
+    color: inherit;
+    display:inline-flex;
+    gap:10px; align-items:center;
+    transition: transform .12s ease, box-shadow .12s;
+  }
+  .btn:active { transform: translateY(1px) scale(.98); }
+  .btn.primary {
+    background: linear-gradient(90deg,#7c3aed,#06b6d4);
+    color: #02121a; font-weight:700;
+    box-shadow: 0 8px 20px rgba(7,10,25,0.45);
+  }
+
+  .main {
+    display:grid; grid-template-columns: 1fr 360px;
+    gap:18px; margin-top:18px;
+  }
+  @media (max-width:960px){ .main { grid-template-columns: 1fr; } }
+
+  .menu {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px; padding:18px; min-height:260px;
+  }
+  .menu h2 { font-size:16px; margin-bottom:10px; }
+  .item {
+    display:flex; align-items:center; gap:12px;
+    padding:10px; border-radius:10px;
+    transition: transform .18s, background .18s;
+    margin-bottom:8px; cursor:pointer;
+  }
+  .item:hover { transform: translateY(-6px); background: rgba(255,255,255,0.06); }
+  .cup {
+    width:56px; height:46px; border-radius:10px;
+    background: linear-gradient(180deg,#fff8,#ffffff10);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+  }
+  .desc { font-size:13px; color:#d8f0ff; opacity:0.95; }
+
+  .space {
+    border-radius:14px; padding:14px; min-height:260px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+    position:relative;
+  }
+  .view {
+    height:170px; border-radius:10px;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), transparent 10%),
+                linear-gradient(180deg,#021123, #041226);
+    overflow:hidden; position:relative;
+    margin-bottom:12px;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* 猫と星 */
+  .cat {
+    position:absolute;
+    width:60px;
+    height:60px;
+    font-size:40px;
+    animation: runCat 3s linear;
+  }
+  @keyframes runCat {
+    0% { transform: translateX(-60px); opacity:0; }
+    10% { opacity:1; }
+    90% { opacity:1; }
+    100% { transform: translateX(360px); opacity:0; }
+  }
+
+  .star {
+    position:absolute;
+    width:6px; height:6px; border-radius:50%;
+    background: white; opacity:0.9;
+    box-shadow: 0 0 14px rgba(255,255,255,0.7), 0 0 40px rgba(124,58,237,0.25);
+    animation: twinkle 1.6s linear infinite;
+  }
+  @keyframes twinkle {
+    0%{ transform: scale(.4); opacity:.3; }
+    50%{ transform: scale(1.2); opacity:1; }
+    100%{ transform: scale(.4); opacity:.3; }
+  }
+
+  .meter { height:8px; background:rgba(255,255,255,0.05);
+    border-radius:8px; overflow:hidden; margin-top:8px; }
+  .meter > i {
+    display:block; height:100%; width: 40%;
+    background: linear-gradient(90deg,#7c3aed,#06b6d4);
+    transition: width .6s cubic-bezier(.2,.9,.3,1);
+  }
+
+  footer { margin-top:12px; font-size:12px; color: #9fbbe6; opacity:0.9;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .badge {
+    background: rgba(255,255,255,0.03);
+    padding:6px 10px; border-radius:999px;
+    font-weight:600; font-size:13px;
+    border:1px solid rgba(255,255,255,0.03);
+  }
+</style>
+</head>
+<body>
+  <div class="card" id="page">
+    <header>
+      <div class="logo">🐾</div>
+      <div>
+        <h1>宇宙ねこカフェ — 星のあいだを駆ける猫</h1>
+        <p class="lead">クリックで星を飛ばしたり、猫を呼び出したりできます🐈‍⬛✨</p>
+      </div>
+      <div style="margin-left:auto;"><div class="badge">一枚完結</div></div>
+    </header>
+
+    <div class="main">
+      <section class="menu">
+        <h2>本日のメニュー</h2>
+
+        <div class="item" data-power="40">
+          <div class="cup">🐱</div>
+          <div>
+            <div style="font-weight:700">ねこブレンド</div>
+            <div class="desc">まろやかなミルクと月光の香り。</div>
+          </div>
+        </div>
+
+        <div class="item" data-power="60">
+          <div class="cup">🐈‍⬛</div>
+          <div>
+            <div style="font-weight:700">ミッドナイトキャット</div>
+            <div class="desc">夜空を駆ける猫のようにスッキリ。</div>
+          </div>
+        </div>
+
+        <div class="item" data-power="80">
+          <div class="cup">🌌</div>
+          <div>
+            <div style="font-weight:700">流星ミルク</div>
+            <div class="desc">甘くてきらめく星屑入り。</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn primary" id="cat-btn">猫を呼ぶ</button>
+          <button class="btn" id="star-btn">星を飛ばす</button>
+          <button class="btn" id="boom-btn">大発射！</button>
+        </div>
+
+        <div class="meter" style="margin-top:12px;"><i id="power-bar"></i></div>
+      </section>
+
+      <aside class="space">
+        <div class="view" id="space-view" title="クリックで星を飛ばせます"></div>
+        <div style="font-size:13px; font-weight:700;">猫たちは気まぐれに宇宙を走ります。</div>
+      </aside>
+    </div>
+
+    <footer>
+      <span>© 2025 宇宙ねこカフェ</span>
+      <span>Made with 🐈‍⬛ by ChatGPT × あなた</span>
+    </footer>
+  </div>
+
+  <script>
+    const view = document.getElementById("space-view");
+    const catBtn = document.getElementById("cat-btn");
+    const starBtn = document.getElementById("star-btn");
+    const boomBtn = document.getElementById("boom-btn");
+    const powerBar = document.getElementById("power-bar");
+
+    function createStar(x, y, scale=1) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      star.style.left = x + "px";
+      star.style.top = y + "px";
+      star.style.transform = `scale(${scale})`;
+      view.appendChild(star);
+      setTimeout(() => {
+        star.style.transition = "opacity 1.2s, transform 1.2s";
+        star.style.opacity = 0;
+        star.style.transform = "scale(0)";
+      }, 800);
+      setTimeout(() => star.remove(), 2000);
+    }
+
+    function randomStar(count=6) {
+      const rect = view.getBoundingClientRect();
+      for (let i = 0; i < count; i++) {
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+        const scale = 0.5 + Math.random() * 1.4;
+        createStar(x, y, scale);
+      }
+    }
+
+    function spawnCat() {
+      const cat = document.createElement("div");
+      cat.classList.add("cat");
+      cat.textContent = Math.random() > 0.5 ? "🐈‍⬛" : "🐱";
+      cat.style.top = Math.random() * 100 + "px";
+      view.appendChild(cat);
+      setTimeout(() => cat.remove(), 3000);
+    }
+
+    view.addEventListener("click", e => {
+      const rect = view.getBoundingClientRect();
+      createStar(e.clientX - rect.left, e.clientY - rect.top, 1.6);
+      if (Math.random() > 0.5) spawnCat();
+    });
+
+    catBtn.addEventListener("click", () => spawnCat());
+    starBtn.addEventListener("click", () => randomStar(8));
+    boomBtn.addEventListener("click", () => randomStar(20));
+
+    document.querySelectorAll(".item").forEach(item => {
+      item.addEventListener("click", () => {
+        const power = item.getAttribute("data-power");
+        powerBar.style.width = power + "%";
+        randomStar(Math.floor(power/10));
+        spawnCat();
+      });
+    });
+  </script>
+</body>
+</html>
