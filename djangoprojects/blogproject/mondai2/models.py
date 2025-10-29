@@ -36,7 +36,6 @@ class Mondai2Post(models.Model):
     def __str__(self):
         '''Django管理サイトでデータを表示する際に識別名として
             投稿記事のタイトル(titleフィールドの値)を表示するために必要
-cd c:\work\django\djangoprojects\blogproject
-            Retuens(str):投稿記事のタイトル
+            Returns(str): 投稿記事のタイトル
         '''
         return self.title

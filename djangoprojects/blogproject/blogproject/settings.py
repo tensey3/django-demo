@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	# 追加
 	'blogapp.apps.BlogappConfig',
+	'mondai1.apps.Mondai1Config',
+	'mondai2.apps.Mondai2Config',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,6 @@ from django.contrib.messages import constants
 MESSAGE_TAGS = {
     constants.SUCCESS: 'alert alert-success',
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
