@@ -14,4 +14,12 @@ urlpatterns = [
 
     # 投稿完了ページへのアクセスはviewsモジュールのPostSuccessViewを実行
     path('post_done', views.PostSuccessView.as_view(), name='post_done'),
+
+    # 7.6　カテゴリ一覧ページ
+    # photos/<Categorysテーブルのid値>にマッチング
+    # <int:category>は辞書{category: id値(int)}としてCategoryViewに渡される
+    path('photos/<int:category>',
+         views.CategoryView.as_view(),
+         name = 'photos_cat'
+    ),
 ]

@@ -63,7 +63,6 @@ class ContactView(FormView):
         try:
             message.send()
         except Exception as e:
-            # Sending failed: show error message and re-display form
             messages.error(self.request, f'送信に失敗しました。エラー: {e}')
             return self.form_invalid(form)
         messages.success(self.request, 'お問い合わせは正常に送信されました。')
