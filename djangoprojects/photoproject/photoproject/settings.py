@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_^r*e3ry_6+qwr7c*huv&vu3ic%schs(sdgr8rnust(=c&6xui'
+SECRET_KEY = 'django-insecure-d0^jb+ntw)^75u%q&e4%oqn9@rk0l9f(fcb5d%cd37-zkgv@$t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # photoアプリを追加
     'photo.apps.PhotoConfig',
+    # accountsアプリを追加
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -104,9 +107,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'Ja'
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -118,9 +123,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# staticフォルダーのフルパスを設定
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-import os
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+#フォームの送信データをターミナルに出力
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# mediaフォルダの場所（BASE_DIR以下のmedia）を登録
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# mediaのURLを登録
+MEDIA_URL = '/media/'
+
